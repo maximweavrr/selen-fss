@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
 import pytest
-from db_clear import *
+# from db_clear import *
 
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
@@ -19,8 +19,8 @@ driver.maximize_window()
 driver.get("http://10.200.0.153:9090/")
 assert "Login - Formulatrix Score Server" in driver.title
 
-def test_loginUser1():
-    username = "regscorer1"
+def test_loginUser2():
+    username = "regscorer2"
     password = "fmlx123"
     # IDENTIFY & INPUT EMAIL AND PASSWORD FORMS
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
@@ -47,8 +47,8 @@ def test_FSSScore():
     i = 0
     while i < 10:
         time.sleep(2)
-        # CLICK CLEAR BUTTON
-        driver.find_element(By.XPATH,"//button[@id='C']").click()
+        # CLICK PRECIPITATE BUTTON
+        driver.find_element(By.XPATH,"//button[@id='P']").click()
         i = i + 1
         time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")
