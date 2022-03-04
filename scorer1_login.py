@@ -10,29 +10,29 @@ chrome_options = Options()
 chrome_options.add_argument("--incognito")
 # chrome_options.add_argument("--headless")
 
-#buka browser
+# buka browser
 driver = webdriver.Chrome(options=chrome_options)
 
-#maximize window
+# maximize window
 driver.minimize_window()
 driver.get("http://10.200.0.153:9090/")
 assert "Login - Formulatrix Score Server" in driver.title
 
 
 def test_loginUser1():
-    #IDENTIFY AND INPUTS EMAIL TEXTBOX
+    # IDENTIFY AND INPUTS EMAIL TEXTBOX
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
     input_acc.send_keys("regscorer1")
     
-    #IDENTIFY AND INPUTS PASSWORD TEXTBOX
+    # IDENTIFY AND INPUTS PASSWORD TEXTBOX
     input_pass = driver.find_element(By.ID,"formHorizontalPassword")
     input_pass.send_keys("fmlx123")
     
-    #CHECKPOINTS EMAIL AND PASSWORD INPUTS
+    # CHECKPOINTS EMAIL AND PASSWORD INPUTS
     assert "regscorer1" == input_acc.get_attribute("value")
     assert "fmlx123" == input_pass.get_attribute("value")
 
-    #SUBMIT
+    # SUBMIT
     submit = driver.find_element(By.XPATH,"//button[@class='submit-button btn btn-default']")
     submit.click()
     
@@ -40,39 +40,39 @@ def test_loginUser1():
 def test_checkElementsHome():
     driver.implicitly_wait(5)
     
-    #Get Lists of Menu Elements
+    # GET LISTS OF MENU ELEMENTS
     fssmenu = driver.find_elements(By.XPATH,"//button[@class='card center']//div[@class='title']")
     fsslen = len(fssmenu)
 
-    #Get Username Label
+    # GET USERNAME LABEL
     uname = driver.find_element(By.XPATH,"//div[@class='col-md-2 usernameLogout']//span[@class='']")
     assert "regscorer1" == uname.text
 
-    #PRINTS RESULT COMMENTS
+    # PRINTS RESULT COMMENTS
     if str(fsslen) == "3" and uname.text == "regscorer1":
         
-        #Print username label and Count of Menus
+        # PRINT USERNAME LABEL AND COUNT OF MENUS
         print("Count of Menus: " + str(fsslen), "\nUsername marker is: " +uname.text)
         
-        #Print all menus
+        # PRINT ALL EXISTING MENUS
         print("\nList of Menus:")
         for menus in fssmenu:
             print(menus.text) 
     else:
-        #Failed Print
+        # FAILED PRINT
         print("No menus/Failed")
 
 def test_checkMenus():
 
-    #Check FSS Score Menu
+    # CHECK FSS SCORE MENU
     fss_score = driver.find_element(By.XPATH,"//button[@id='fss-score']//div[@class='title']")
     assert "FSS Score" == fss_score.text
 
-    #Check FSS Disagreed Scoring  Menu
+    # CHECK FSS DISAGREED SCORE MENU
     fss_disagreed = driver.find_element(By.XPATH,"//button[@id='fss-score disagreed']//div[@class='title']")
     assert "FSS Score Disagreed" == fss_disagreed.text
 
-    #Check FSS Training Menu
+    # CHECK FSS TRAINING MENU
     fss_training = driver.find_element(By.XPATH,"//button[@id='training-image']//div[@class='title']")
     assert "Training Image" == fss_training.text
     
