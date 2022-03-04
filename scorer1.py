@@ -6,6 +6,7 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import pytest
 # from scorer1_login import *
+from db_clear import *
 
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
@@ -36,12 +37,24 @@ def test_FSSScore():
     fss_score.click()
     i = 0
     while i < 10:
+        time.sleep(2)
         driver.find_element(By.XPATH,"//button[@id='C']").click()
         i = i + 1
-        time.sleep(2)
-        print(str(i))
+        time.sleep(1)
+        print("Current Drop Scored: " + str(i) + "\n")
         totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
         assert str(i) in  totalscored.text
+
+def test_noImageLeft():
+    warningtext = driver.find_element(By.XPATH,"//div[@class='row warningText']")
+    assert "There's no drop images for this status" == warningtext.text
+
+def test_logOut():
+    logout_button = driver.find_element(By.ID,"LogOut")
+    logout_button.click()
+    time.sleep(1)
+    img_home = driver.find_element(By.XPATH,"//div[@class='login']/img")
+    assert "http://10.200.0.153:9090/dist/246617079a1a4836cced134fae1f05f8.png" == img_home.get_attribute("src")
 
 def test_tearDown():
     driver.quit()
