@@ -24,7 +24,6 @@ def test_loginUser1():
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
     input_acc.send_keys("regscorer1")
     
-
     #IDENTIFY AND INPUTS PASSWORD TEXTBOX
     input_pass = driver.find_element(By.ID,"formHorizontalPassword")
     input_pass.send_keys("fmlx123")
