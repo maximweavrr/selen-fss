@@ -5,7 +5,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
 import pytest
-# from db_clear import *
 
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
@@ -19,8 +18,8 @@ driver.maximize_window()
 driver.get("http://10.200.0.153:11000/")
 assert "Login - Formulatrix Score Server" in driver.title
 
-def test_loginUser3():
-    username = "regscorer3"
+def test_loginUser1():
+    username = "pmscorer1"
     password = "fmlx123"
     # IDENTIFY & INPUT EMAIL AND PASSWORD FORMS
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
@@ -39,38 +38,28 @@ def test_loginUser3():
 def test_FSSScore():
     # IDENTIFY AND CHECK IF FSS SCORE MENU EXISTS
     driver.implicitly_wait(1)
-    fss_score = driver.find_element(By.XPATH,"//button[@id='fss-score']//div[@class='title']")
-    assert "FSS Score" == fss_score.text
-    fss_score.click()
+    pm_discussion = driver.find_element(By.XPATH,"//button[@id='pm-discussion page']//div[@class='title']")
+    assert "PM Discussion Page" == pm_discussion.text
+    pm_discussion.click()
 
-    # SCORES 5 IMAGES FIRST AS CLEAR, SCORES AS OTHERS FOR THE REST
+    # SCORE 1 IMAGE ONLY
     i = 0
-    while i < 5:
+    while i < 1:
         time.sleep(2)
-        # CLICK PRECIPITATE BUTTON
-        driver.find_element(By.XPATH,"//button[@id='C']").click()
+        driver.find_element(By.XPATH,"//button[@id='X']").click()
         i = i + 1
-        time.sleep(1)
+        time.sleep(4)
         print("Current Drop Scored: " + str(i) + "\n")
-        # totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
 
-    while 4 < i < 10:
-        time.sleep(2)
-        # CLICK PRECIPITATE BUTTON
-        driver.find_element(By.XPATH,"//button[@id='O']").click()
-        i = i + 1
-        time.sleep(1)
-        print("Current Drop Scored: " + str(i) + "\n")
-        
-        # CHECK IF TOTAL SCORED INFORMATION == "i" VALUE
+        # CHECK TOTAL SCORED == i
         totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
         assert str(i) in  totalscored.text
 
 # TEST DISPLAY IF THERE IS NO IMAGE LEFT, ONCE ALL IMAGES ARE SCORED
-def test_noImageLeft():
-    # IDENTIFY ELEMENT AND CHECK
-    warningtext = driver.find_element(By.XPATH,"//div[@class='row warningText']")
-    assert "There's no drop images for this status" == warningtext.text
+# def test_noImageLeft():
+#     # IDENTIFY ELEMENT AND CHECK
+#     warningtext = driver.find_element(By.XPATH,"//div[@class='row warningText']")
+#     assert "There's no drop images for this status" == warningtext.text
 
 def test_logOut():
     # IDENTIFY LOGOUT BUTTON AND ACTION

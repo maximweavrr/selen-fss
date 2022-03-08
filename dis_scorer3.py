@@ -6,6 +6,8 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import pytest
 # from db_clear import *
+# from regscorer_login import *
+# from regscorer_menu import *
 
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
@@ -36,27 +38,26 @@ def test_loginUser3():
     submit = driver.find_element(By.XPATH,"//button[@class='submit-button btn btn-default']")
     submit.click()
 
-def test_FSSScore():
+def test_DisagreedScore():
     # IDENTIFY AND CHECK IF FSS SCORE MENU EXISTS
     driver.implicitly_wait(1)
-    fss_score = driver.find_element(By.XPATH,"//button[@id='fss-score']//div[@class='title']")
-    assert "FSS Score" == fss_score.text
-    fss_score.click()
+    fss_disagreed = driver.find_element(By.XPATH,"//button[@id='fss-score disagreed']//div[@class='title']")
+    assert "FSS Score Disagreed" == fss_disagreed.text
+    fss_disagreed.click()
 
-    # SCORES 5 IMAGES FIRST AS CLEAR, SCORES AS OTHERS FOR THE REST
+    # SCORES FIRST IMAGE AS PRECIPITATE, SCORE THE REST AS OTHERS
     i = 0
-    while i < 5:
+    while i < 1:
         time.sleep(2)
-        # CLICK PRECIPITATE BUTTON
-        driver.find_element(By.XPATH,"//button[@id='C']").click()
+        # CLICK CLEAR BUTTON
+        driver.find_element(By.XPATH,"//button[@id='P']").click()
         i = i + 1
         time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")
         # totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
 
-    while 4 < i < 10:
+    while 0 < i <= 4:
         time.sleep(2)
-        # CLICK PRECIPITATE BUTTON
         driver.find_element(By.XPATH,"//button[@id='O']").click()
         i = i + 1
         time.sleep(1)

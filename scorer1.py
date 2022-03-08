@@ -16,7 +16,7 @@ driver = webdriver.Chrome(options=chrome_options)
 
 # maximize window
 driver.maximize_window()
-driver.get("http://10.200.0.153:9090/")
+driver.get("http://10.200.0.153:11000/")
 assert "Login - Formulatrix Score Server" in driver.title
 
 def test_loginUser1():
@@ -52,9 +52,9 @@ def test_FSSScore():
         i = i + 1
         time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")
-        totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
         
         # CHECK IF TOTAL SCORED INFORMATION == "i" VALUE
+        totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
         assert str(i) in  totalscored.text
 
 # TEST DISPLAY IF THERE IS NO IMAGE LEFT, ONCE ALL IMAGES ARE SCORED
@@ -73,7 +73,7 @@ def test_logOut():
 
     # IDENTIFY AND CHECK IMAGE IF IT REDIRECTS TO HOME PAGE AFTER LOGOUT
     img_home = driver.find_element(By.XPATH,"//div[@class='login']/img")
-    assert "http://10.200.0.153:9090/dist/246617079a1a4836cced134fae1f05f8.png" == img_home.get_attribute("src")
+    assert "dist/246617079a1a4836cced134fae1f05f8.png" in img_home.get_attribute("src")
 
 def test_tearDown():
     driver.quit()

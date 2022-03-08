@@ -6,6 +6,8 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import pytest
 # from db_clear import *
+# from regscorer_login import *
+# from regscorer_menu import *
 
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
@@ -19,8 +21,8 @@ driver.maximize_window()
 driver.get("http://10.200.0.153:11000/")
 assert "Login - Formulatrix Score Server" in driver.title
 
-def test_loginUser3():
-    username = "regscorer3"
+def test_loginUser2():
+    username = "regscorer2"
     password = "fmlx123"
     # IDENTIFY & INPUT EMAIL AND PASSWORD FORMS
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
@@ -36,28 +38,19 @@ def test_loginUser3():
     submit = driver.find_element(By.XPATH,"//button[@class='submit-button btn btn-default']")
     submit.click()
 
-def test_FSSScore():
+def test_DisagreedScore():
     # IDENTIFY AND CHECK IF FSS SCORE MENU EXISTS
     driver.implicitly_wait(1)
-    fss_score = driver.find_element(By.XPATH,"//button[@id='fss-score']//div[@class='title']")
-    assert "FSS Score" == fss_score.text
-    fss_score.click()
+    fss_disagreed = driver.find_element(By.XPATH,"//button[@id='fss-score disagreed']//div[@class='title']")
+    assert "FSS Score Disagreed" == fss_disagreed.text
+    fss_disagreed.click()
 
-    # SCORES 5 IMAGES FIRST AS CLEAR, SCORES AS OTHERS FOR THE REST
+    # SCORES ALL 5 IMAGES AS PRECIPITATE
     i = 0
     while i < 5:
         time.sleep(2)
-        # CLICK PRECIPITATE BUTTON
-        driver.find_element(By.XPATH,"//button[@id='C']").click()
-        i = i + 1
-        time.sleep(1)
-        print("Current Drop Scored: " + str(i) + "\n")
-        # totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
-
-    while 4 < i < 10:
-        time.sleep(2)
-        # CLICK PRECIPITATE BUTTON
-        driver.find_element(By.XPATH,"//button[@id='O']").click()
+        # CLICK CLEAR BUTTON
+        driver.find_element(By.XPATH,"//button[@id='P']").click()
         i = i + 1
         time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")

@@ -10,7 +10,7 @@ conn = psycopg2.connect(
 
 cur = conn.cursor()
 
-delete_script = '''delete from imagescorelistdetail i where exists (select 1 from imagescorelist i2 where notes='VIS2021Q3-SQA' and i2.id = i.id)'''
+delete_script = '''delete from imagescorelistdetail i where exists (select 1 from imagescorelist i2 where dataset='VIS2021Q3-SQA' and i2.id = i.id)'''
 
 cur.execute(delete_script)
 conn.commit()
