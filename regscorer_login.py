@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time
 import pytest
-from db_clear import *
+# from db_clear import *
 
 chrome_options = Options()
 chrome_options.add_argument("--incognito")

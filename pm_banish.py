@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import pytest
 
@@ -43,22 +45,29 @@ def test_BanishImageButton():
     pm_discussion.click()
 
     # IDENTIFY BANISH IMAGE BUTTON
-    banish_button = driver.find_element(By.XPATH,"//button[@id='BANISH_BUTTON']")
-    banish_button.click()
+    time.sleep(1)
+    canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas")))
+    if canvas:
+        time.sleep(0.3)
+        banish_button = driver.find_element(By.XPATH,"//button[@id='BANISH_BUTTON']")
+        banish_button.click()
+        time.sleep(0.3)
+    else:
+        print("Canvas not visible")
+    # banish_button = driver.find_element(By.XPATH,"//button[@id='BANISH_BUTTON']")
+    # banish_button.click()
+    # time.sleep(5)
 
     # IDENTIFY BANISH IMAGE POP-UP
 def test_BanishPopUp():
-    banishment_popup = driver.find_element(By.XPATH,"//div[@id='banishment-card']")
-    display_none = "display: none;"
+    # time.sleep(5)
+    banishment_popup = driver.find_element(By.XPATH,"//div[@class='overlay-popup-content']/div[@id='banishment-card']")
+    banish_isdisplay = banishment_popup.is_displayed()
+    assert True == banish_isdisplay
 
-    # displaynone = driver.find_element(By.XPATH,"//div[@id='banishment-popup']//div[@style='display: block;']")
-    assert display_none == banishment_popup.get_attribute("style")
-    time.sleep(4)
-    
-    banishment_popup = driver.find_element(By.XPATH,"//div[@id='banishment-card']")
-    display_block = "display: block;"
-    assert display_block == banishment_popup.get_attribute("style")
-    
+    # display_block = "display: block;"
+    # assert display_block == banishment_popup.get_attribute("style")
+
     # CHECK DISCARD CHANGES
     discard_title = driver.find_element(By.XPATH,"//div[@id='banishment-card']//b")
     assert "Discard Change" == discard_title.text
@@ -72,20 +81,22 @@ def test_CancelBanish():
     cancelbutton.click()
     
     # IDENTIFY BANISHMENT POPUP STYLE STATUS
-    banishment_popup = driver.find_element(By.ID,"//div[@class='overlay-popup-content']/div[@id='banishment-card']")
-    display_none = "display: none;"
-    assert display_none == banishment_popup.get_attribute("style")
+    banishment_popup = driver.find_element(By.XPATH,"//div[@class='overlay-popup-content']/div[@id='banishment-card']")
+    banish_isdisplay = banishment_popup.is_displayed()
+    assert False == banish_isdisplay
 
 
 def test_BanishImage():
-     # IDENTIFY BANISH IMAGE BUTTON
+    # IDENTIFY BANISH IMAGE BUTTON
+    time.sleep(2)
     banish_button = driver.find_element(By.ID,"BANISH_BUTTON")
     banish_button.click()
-    display_block = "display: block;"
-    assert display_block == banish_button.get_attribute("style")
 
     # IDENTIFY BANISH IMAGE POP-UP
-    banishment_popup = driver.find_element(By.ID,"//div[@class='overlay-popup-content']/div[@id='banishment-card']")
+    time.sleep(3)
+    banishment_popup = driver.find_element(By.XPATH,"//div[@class='overlay-popup-content']/div[@id='banishment-card']")
+    banish_isdisplay = banishment_popup.is_displayed()
+    assert True == banish_isdisplay
 
     # IDENTIFY PROCEED BUTTON
     proceedbutton = driver.find_element(By.XPATH,"//button[@class='card-proceed-btn']")
@@ -94,9 +105,19 @@ def test_BanishImage():
 
 # TEST DISPLAY IF THERE IS NO IMAGE LEFT, ONCE ALL IMAGES ARE SCORED
 def test_noImageLeft():
+    time.sleep(5)
     # IDENTIFY ELEMENT AND CHECK
     warningtext = driver.find_element(By.XPATH,"//div[@class='row warningText']")
     assert "There's no drop images for this status" == warningtext.text
+
+
+def test_BanishButtonDisabled():
+    warning_present = driver.find_element(By.XPATH,"//div[@class='row warningText']").is_displayed()
+    if warning_present == True:
+        banish_button = driver.find_element(By.ID,"BANISH_BUTTON")
+        isdisabled = banish_button.is_enabled()
+        assert False == isdisabled
+
 
 def test_logOut():
     # IDENTIFY LOGOUT BUTTON AND ACTION

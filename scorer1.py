@@ -48,7 +48,7 @@ def test_FSSScore():
     while i < 10:
         time.sleep(2)
         # CLICK CLEAR BUTTON
-        driver.find_element(By.XPATH,"//button[@id='C']").click()
+        driver.find_element(By.XPATH,"//button[@id='0']").click()
         i = i + 1
         time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")

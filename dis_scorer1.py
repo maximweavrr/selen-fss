@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import pytest
 # from db_clear import *
@@ -48,20 +50,33 @@ def test_DisagreedScore():
     # SCORES FIRST 1 IMAGES AS PRECIPITATE, SCORES AS CLEAR FOR THE REST
     i = 0
     while i < 1:
-        time.sleep(2)
-        # CLICK CLEAR BUTTON
-        driver.find_element(By.XPATH,"//button[@id='P']").click()
+        canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas"))) 
+        if canvas:
+            time.sleep(0.3)
+            scorebutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='1']")))
+            scorebutton.click()
+            submitbutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.ID,"SUBMIT_BUTTON")))
+            submitbutton.click()
+            time.sleep(0.3)
+        else:
+            print("Canvas not visible")
         i = i + 1
-        time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")
-        # totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
 
     while 0 < i <= 4:
-        time.sleep(2)
-        driver.find_element(By.XPATH,"//button[@id='C']").click()
+        canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas"))) 
+        if canvas:
+            time.sleep(0.3)
+            scorebutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='0']")))
+            scorebutton.click()
+            submitbutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.ID,"SUBMIT_BUTTON")))
+            submitbutton.click()
+            time.sleep(0.3)
+        else:
+            print("Canvas not visible")
         i = i + 1
-        time.sleep(1)
         print("Current Drop Scored: " + str(i) + "\n")
+
        
         # CHECK IF TOTAL SCORED INFORMATION == "i" VALUE
         totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")

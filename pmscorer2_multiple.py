@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import pytest
 
+
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
 # chrome_options.add_argument("--headless")
@@ -21,7 +22,7 @@ driver.get("http://10.200.0.153:11000/")
 assert "Login - Formulatrix Score Server" in driver.title
 
 def test_loginUser():
-    username = "pmscorer1"
+    username = "pmscorer2"
     password = "fmlx123"
     # IDENTIFY & INPUT EMAIL AND PASSWORD FORMS
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
@@ -44,14 +45,16 @@ def test_ScoringImage():
     assert "Scoring Image" == scoring_image.text
     scoring_image.click()
 
-    # SCORES FIRST 2 IMAGES AS PRECIPITATE, SCORES THE REST AS CLEAR
+    # SCORES ALL 4 IMAGES AS PRECIPITATE
     i = 0
-    while i < 2:
+    while i < 4:
         canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas")))
         if canvas:
             time.sleep(0.3)
-            scorebutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='1']")))
-            scorebutton.click()
+            scorebutton1 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='1']")))
+            scorebutton1.click()
+            scorebutton2 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='6']")))
+            scorebutton2.click()
             submitbutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.ID,"SUBMIT_BUTTON")))
             submitbutton.click()
             time.sleep(0.3)
@@ -60,31 +63,15 @@ def test_ScoringImage():
         i = i + 1
         print("Current Drop Scored: " + str(i) + "\n")
 
-    while 2 <= i <= 3:
-        canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas")))
-        if canvas:
-            time.sleep(0.3)
-            scorebutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='0']")))
-            scorebutton.click()
-            submitbutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.ID,"SUBMIT_BUTTON")))
-            submitbutton.click()
-            time.sleep(0.3)
-        else:
-            print("Canvas not visible")
-        i = i + 1
-        print("Current Drop Scored: " + str(i) + "\n")
-        
-         # CHECK IF TOTAL SCORED INFORMATION == "i" VALUE
+        # CHECK IF TOTAL SCORED INFORMATION == "i" VALUE
         totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
         assert str(i) in  totalscored.text
-
 
 # TEST DISPLAY IF THERE IS NO IMAGE LEFT, ONCE ALL IMAGES ARE SCORED
 def test_noImageLeft():
     # IDENTIFY ELEMENT AND CHECK
     warningtext = driver.find_element(By.XPATH,"//div[@class='row warningText']")
     assert "There's no drop images for this status" == warningtext.text
-
 
 def test_logOut():
     # IDENTIFY LOGOUT BUTTON AND ACTION
@@ -97,7 +84,6 @@ def test_logOut():
     # IDENTIFY AND CHECK IMAGE IF IT REDIRECTS TO HOME PAGE AFTER LOGOUT
     img_home = driver.find_element(By.XPATH,"//div[@class='login']/img")
     assert "dist/246617079a1a4836cced134fae1f05f8.png" in img_home.get_attribute("src")
-
 
 def test_tearDown():
     driver.quit()

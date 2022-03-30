@@ -21,7 +21,7 @@ driver.get("http://10.200.0.153:11000/")
 assert "Login - Formulatrix Score Server" in driver.title
 
 def test_loginUser():
-    username = "pmscorer1"
+    username = "pmscorer3"
     password = "fmlx123"
     # IDENTIFY & INPUT EMAIL AND PASSWORD FORMS
     input_acc = driver.find_element(By.ID,"formHorizontalEmail")
@@ -44,14 +44,16 @@ def test_ScoringImage():
     assert "Scoring Image" == scoring_image.text
     scoring_image.click()
 
-    # SCORES FIRST 2 IMAGES AS PRECIPITATE, SCORES THE REST AS CLEAR
+    # SCORES FIRST 2 IMAGES AS PRECIPITATE, SCORES THE REST AS OTHERS
     i = 0
     while i < 2:
         canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas")))
         if canvas:
             time.sleep(0.3)
-            scorebutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='1']")))
-            scorebutton.click()
+            scorebutton1 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='1']")))
+            scorebutton1.click()
+            scorebutton2 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='6']")))
+            scorebutton2.click()
             submitbutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.ID,"SUBMIT_BUTTON")))
             submitbutton.click()
             time.sleep(0.3)
@@ -64,8 +66,10 @@ def test_ScoringImage():
         canvas = WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.XPATH, "//canvas")))
         if canvas:
             time.sleep(0.3)
-            scorebutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='0']")))
-            scorebutton.click()
+            scorebutton3 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='2']")))
+            scorebutton3.click()
+            scorebutton4 = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.XPATH,"//button[@id='3']")))
+            scorebutton4.click()
             submitbutton = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.ID,"SUBMIT_BUTTON")))
             submitbutton.click()
             time.sleep(0.3)
@@ -73,7 +77,7 @@ def test_ScoringImage():
             print("Canvas not visible")
         i = i + 1
         print("Current Drop Scored: " + str(i) + "\n")
-        
+
          # CHECK IF TOTAL SCORED INFORMATION == "i" VALUE
         totalscored = driver.find_element(By.XPATH,"//p[@class='score-note-header']")
         assert str(i) in  totalscored.text

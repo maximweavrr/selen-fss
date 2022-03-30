@@ -76,6 +76,7 @@ def test_checkMenus():
     # CHECK FSS TRAINING MENU
     fss_training = driver.find_element(By.XPATH,"//button[@id='training-image']//div[@class='title']")
     assert "Training Image" == fss_training.text
-    
+
+
 # def test_tearDown():
 #     driver.quit()
